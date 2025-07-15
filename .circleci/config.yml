@@ -26,7 +26,7 @@ jobs:
       - run:
           name: Install mystmd
           command: |
-            npm install -g mystmd
+            npm install mystmd
 
       - run:
           name: Install Python dependencies
@@ -37,7 +37,7 @@ jobs:
       - save_cache:
           key: node-cache-v1
           paths:
-            - ~/.npm
+            - node_modules
 
       - save_cache:
           key: pip-cache-{{ checksum "requirements.txt" }}
@@ -47,7 +47,7 @@ jobs:
       - run:
           name: Build docs
           command: |
-            (cd docs && myst build --html)
+            (cd docs && npx myst build --html)
 
             ## Temporary hack to remove unused thebe JS
             rm docs/_build/html/*thebe*.js
