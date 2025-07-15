@@ -1,0 +1,12 @@
+version: 1
+project:
+  title: Myst Example Site
+  github: https://github.com/stefanv/myst-preview
+  license:
+    code: MIT
+    content: CC0-1.0
+  toc:
+    - file: index.md
+
+site:
+  title: Myst Example Site

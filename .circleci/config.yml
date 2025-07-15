@@ -1,0 +1,62 @@
+# See: https://circleci.com/docs/2.0/language-python/
+
+version: 2.1
+
+jobs:
+  documentation:
+    docker:
+      - image: cimg/python:3.13
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - node-cache-v1
+
+      - restore_cache:
+          keys:
+            - pip-cache-{{ checksum "requirements.txt" }}
+
+      - run:
+          name: Install Node.js
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y nodejs npm
+
+      - run:
+          name: Install mystmd
+          command: |
+            npm install -g mystmd
+
+      - run:
+          name: Install Python dependencies
+          command: |
+            python -m pip install --upgrade pip
+            if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - save_cache:
+          key: node-cache-v1
+          paths:
+            - ~/.npm
+
+      - save_cache:
+          key: pip-cache-{{ checksum "requirements.txt" }}
+          paths:
+            - ~/.cache/pip
+
+      - run:
+          name: Build docs
+          command: |
+            (cd docs && myst build --html)
+
+            ## Temporary hack to remove unused thebe JS
+            rm docs/_build/html/*thebe*.js
+
+      - store_artifacts:
+          path: docs/_build/html
+
+workflows:
+  version: 2
+  build-and-docs:
+    jobs:
+      - documentation
