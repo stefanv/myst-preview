@@ -5,8 +5,13 @@ project:
   license:
     code: MIT
     content: CC0-1.0
-  toc:
-    - file: index.md
 
 site:
   title: Myst Example Site
+  nav:
+    - title: Welcome
+      children:
+        - title: Index
+          url: /index
+        - title: Another
+          url: /another
