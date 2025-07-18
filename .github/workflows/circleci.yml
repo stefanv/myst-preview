@@ -12,10 +12,11 @@ jobs:
     name: Run CircleCI documentation artifact redirector
     steps:
       - name: GitHub Action step
-        uses: scientific-python/circleci-artifacts-redirector-action@7eafdb60666f57706a5525a2f5eb76224dc8779b # v1.1.0
+        uses: stefanv/circleci-artifacts-redirector-action@3d84ac7f7a17a892ca745d22c8c894b6b9977d8a
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           api-token: ${{ secrets.CIRCLECI_ARTIFACT_REDIRECTOR_TOKEN }}
           artifact-path: 0/docs/_build/html/index.html
           circleci-jobs: build-docs
           job-title: "--> docs preview <--"
+          domain: circle.scientific-python.dev
